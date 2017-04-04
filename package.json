@@ -5,8 +5,14 @@
   "repository": {},
   "author": "OuYancey <ou.yancey@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon"
+  },
   "dependencies": {
     "request": "^2.81.0",
     "restify": "^4.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }

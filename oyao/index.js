@@ -1,32 +1,32 @@
 const request = require('request')
 
 const getTime = (req, res, next) => {
-	res.send(new Date().toLocaleString())
-	next()
+    res.send(new Date().toLocaleString())
+    next()
 }
 
 const getBingDailyPicUrl = (req, res, next) => {
-	const content = {
-		size: req.query.size || '480x800',
-		date: req.query.date || new Date()
-	}
+    const content = {
+        size: req.query.size || '480x800',
+        date: req.query.date || new Date()
+    }
 
-	function callback(err, response, body) {
-		if (!err) {
-			const data = JSON.parse(body)
-			const image = data.images[0]
-			res.send({
-				url: `http://cn.bing.com${image.urlbase}_${content.size}.jpg`,
-				title: image.copyright
-			})
-			next()
-		}
-	}
+    function callback(err, response, body) {
+        if (!err) {
+            const data = JSON.parse(body)
+            const image = data.images[0]
+            res.send({
+                url: `http://cn.bing.com${image.urlbase}_${content.size}.jpg`,
+                title: image.copyright
+            })
+            next()
+        }
+    }
 
-	request('http://cn.bing.com/HPImageArchive.aspx?format=js&n=1', callback)
+    request('http://cn.bing.com/HPImageArchive.aspx?format=js&n=1', callback)
 }
 
 module.exports = {
-	getTime: getTime,
-	getBingDailyPicUrl: getBingDailyPicUrl
+    getTime: getTime,
+    getBingDailyPicUrl: getBingDailyPicUrl
 }
