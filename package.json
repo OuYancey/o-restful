@@ -1,0 +1,12 @@
+{
+  "name": "o-restful",
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": {},
+  "author": "OuYancey <ou.yancey@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.81.0",
+    "restify": "^4.3.0"
+  }
+}
