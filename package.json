@@ -9,6 +9,7 @@
     "dev": "nodemon"
   },
   "dependencies": {
+    "mongoose": "^4.9.3",
     "request": "^2.81.0",
     "restify": "^4.3.0"
   },

@@ -1,10 +1,5 @@
 const request = require('request')
 
-const getTime = (req, res, next) => {
-    res.send(new Date().toLocaleString())
-    next()
-}
-
 const getBingDailyPicUrl = (req, res, next) => {
     const content = {
         size: req.query.size || '480x800',
@@ -26,7 +21,15 @@ const getBingDailyPicUrl = (req, res, next) => {
     request('http://cn.bing.com/HPImageArchive.aspx?format=js&n=1', callback)
 }
 
+const getDailyExpenditure = (req, res, next) => {
+    const content = {
+        start: req.query.start,
+        end: req.query.end,
+        type: req.query.type
+    }
+}
+
 module.exports = {
-    getTime: getTime,
-    getBingDailyPicUrl: getBingDailyPicUrl
+    getBingDailyPicUrl: getBingDailyPicUrl,
+    getDailyExpenditure: getDailyExpenditure
 }

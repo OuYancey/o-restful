@@ -1,11 +1,17 @@
 const restify = require('restify')
+const db = require('./mongodb')
+
 const server = restify.createServer()
 server.use(restify.queryParser())
 server.use(restify.bodyParser())
 
-const oyao = require('./oyao')
+server.get('/api/time', (req, res, next) => {
+    res.send(new Date().toLocaleString())
+    next()
+})
 
-server.get('/api/time', oyao.getTime)
+const oyao = require('./oyao')
 server.get('/api/bing_daily_pic_url', oyao.getBingDailyPicUrl)
+server.get('/api/daily_expenditure', oyao.getDailyExpenditure)
 
 server.listen(2017, () => console.log(`restful server start @${new Date()}`))
