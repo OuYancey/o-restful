@@ -1,24 +1,33 @@
 const request = require('request')
+const mongoose = require('../mongodb')
+
+const BingDailyImage = mongoose.BingDailyImage
 
 const getBingDailyPicUrl = (req, res, next) => {
     const content = {
-        size: req.query.size || '480x800',
-        date: req.query.date || new Date()
+        size: req.query.size,
+        date: req.query.date || '20170401',
+        market: req.query.market || 'zh-cn'
     }
 
-    function callback(err, response, body) {
+    function callback(err, docs) {
         if (!err) {
-            const data = JSON.parse(body)
-            const image = data.images[0]
-            res.send({
-                url: `http://cn.bing.com${image.urlbase}_${content.size}.jpg`,
-                title: image.copyright
-            })
-            next()
+            if (content.size) {
+                res.send(docs.map((doc) => {
+                    return {
+                        url: doc.url.replace('1920x1080', content.size)
+                    }
+                }))
+            }
+        } else {
+            res.send(err)
         }
     }
 
-    request('http://cn.bing.com/HPImageArchive.aspx?format=js&n=1', callback)
+    BingDailyImage.find({
+        startdate: content.date,
+        market: content.market
+    }, callback)
 }
 
 const getDailyExpenditure = (req, res, next) => {
