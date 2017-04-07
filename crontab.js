@@ -50,6 +50,8 @@ const saveImages = (images) => {
             if (!err) {
                 if (docs.length === 0) {
                     image.save((e) => count++)
+                } else {
+                    count++
                 }
             } else {
                 count++
@@ -80,6 +82,7 @@ let timer = setInterval(() => {
         let uniqImages = getUniqImages(dailyImages)
 		saveImages(uniqImages)
         let timer2 = setInterval(() => {
+            console.log(count)
         	if (count === uniqImages.length) {
         		clearInterval(timer2)
 		        mongoose.disconnect()
