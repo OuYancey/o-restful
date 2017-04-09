@@ -19,4 +19,12 @@ mongoose.BingDailyImage = mongoose.model('BingDailyImage', {
     fullstartdate: String
 })
 
+mongoose.DailyExpenditure = mongoose.model('DailyExpenditure', {
+	date: Date,
+	type: String,
+	desc: String,
+	money: Number,
+	id: String
+})
+
 module.exports = mongoose

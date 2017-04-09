@@ -77,12 +77,13 @@ const getUniqImages = (images) => {
 }
 
 let timer = setInterval(() => {
+    console.log('get images number: ' + dailyImages.length)
     if (dailyImages.length === MARKETS.length * NUMBER) {
         clearInterval(timer)
         let uniqImages = getUniqImages(dailyImages)
 		saveImages(uniqImages)
         let timer2 = setInterval(() => {
-            console.log(count)
+            console.log('get images number: ' + count)
         	if (count === uniqImages.length) {
         		clearInterval(timer2)
 		        mongoose.disconnect()
