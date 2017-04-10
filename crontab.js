@@ -16,6 +16,7 @@ const MARKETS = ["ar-xa", "bg-bg", "cs-cz", "da-dk", "de-at", "de-ch", "de-de", 
 
 const hasMarketImage = (url, market) => url.toLowerCase().indexOf(market.toLowerCase()) > -1
 
+let failCount = 0
 let count = 0
 let dailyImages = []
 
@@ -37,6 +38,7 @@ MARKETS.forEach((market) => {
                 )
             })
         } else {
+            failCount++
             console.log(new Date(), market, error)
         }
     })
@@ -77,8 +79,8 @@ const getUniqImages = (images) => {
 }
 
 let timer = setInterval(() => {
-    console.log('get images number: ' + dailyImages.length)
-    if (dailyImages.length === MARKETS.length * NUMBER) {
+    console.log(`get images number: ${dailyImages.length}, target number: ${(MARKETS.length - failCount) * NUMBER}`)
+    if (dailyImages.length === (MARKETS.length - failCount) * NUMBER) {
         clearInterval(timer)
         let uniqImages = getUniqImages(dailyImages)
 		saveImages(uniqImages)
