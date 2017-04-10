@@ -7,8 +7,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon",
-    "pro": "pm2 start index.js --name o-restful",
-    "reload": "pm2 reload o-restful"
+    "pro-start": "pm2 start index.js --name o-restful",
+    "pro-stop": "pm2 stop o-restful",
+    "pro-reload": "pm2 reload o-restful"
   },
   "dependencies": {
     "mongoose": "^4.9.3",
