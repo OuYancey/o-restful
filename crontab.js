@@ -16,80 +16,106 @@ const MARKETS = ["ar-xa", "bg-bg", "cs-cz", "da-dk", "de-at", "de-ch", "de-de", 
 
 const hasMarketImage = (url, market) => url.toLowerCase().indexOf(market.toLowerCase()) > -1
 
-let failCount = 0
-let count = 0
-let dailyImages = []
-
-MARKETS.forEach((market) => {
-    request(`${GLOBAL_BING_HOST}${BING_QUERY_API}${QUERY_PARAM}${market}`, (error, response, body) => {
-        if (!error) {
-            const data = JSON.parse(body)
-            data.images.forEach((image) => {
-                dailyImages.push(
-                    new BingDailyImage({
-                        url: `${CN_BING_HOST}${image.url}`,
-                        urlbase: image.urlbase,
-                        name: image.urlbase.match(/\w+(?=_)/g)[0],
-                        copyright: image.copyright,
-                        market: market,
-                        startdate: image.startdate,
-                        fullstartdate: image.fullstartdate
-                    })
-                )
-            })
-        } else {
-            failCount++
-            console.log(new Date(), market, error)
-        }
-    })
-})
-
-const saveImages = (images) => {
-    images.forEach((image) => {
-        BingDailyImage.find({
-            name: image.name
-        }, (err, docs) => {
-            if (!err) {
-                if (docs.length === 0) {
-                    image.save((e) => count++)
-                } else {
-                    count++
-                }
-            } else {
-                count++
-                console.error(err)
-            }
+const getSingleMarketInfo = (market) => {
+    return new Promise((resolve, reject) => {
+        request(`${GLOBAL_BING_HOST}${BING_QUERY_API}${QUERY_PARAM}${market}`, (error, response, body) => {
+            if (error) reject(error)
+            resolve(body)
         })
     })
 }
 
-const getUniqImages = (images) => {
-    let map = Object.create(null)
-    images.forEach((image) => {
-        // Chinese first
-        if (image.market === 'zh-cn') {
-            map[image.name] = image
-            return
-        }
-        if (!(image.name in map)) {
-            map[image.name] = image
-        }
-    })
-    return Object.keys(map).map(key => map[key])
+const getAllMarketInfos = async () => {
+    let markets = MARKETS.map((market) => getSingleMarketInfo(market))
+    let results = await Promise.all(markets)
+    return results
 }
 
-let timer = setInterval(() => {
-    console.log(`get images number: ${dailyImages.length}, target number: ${(MARKETS.length - failCount) * NUMBER}`)
-    if (dailyImages.length === (MARKETS.length - failCount) * NUMBER) {
-        clearInterval(timer)
-        let uniqImages = getUniqImages(dailyImages)
-		saveImages(uniqImages)
-        let timer2 = setInterval(() => {
-            console.log('get images number: ' + count)
-        	if (count === uniqImages.length) {
-        		clearInterval(timer2)
-		        mongoose.disconnect()
-        	}
-        }, 100)
+const getUniqImages = (data) => {
+    let dailyImages = []
+    data.forEach((item, itemIndex) => {
+        JSON.parse(item).images.forEach((image) => {
+            if (!hasMarketImage(image.url, MARKETS[itemIndex])) return
+            dailyImages.push(
+                new BingDailyImage({
+                    url: `${CN_BING_HOST}${image.url}`,
+                    urlbase: image.urlbase,
+                    name: image.urlbase.match(/\w+(?=_)/g)[0],
+                    copyright: image.copyright,
+                    market: MARKETS[itemIndex],
+                    startdate: image.startdate,
+                    fullstartdate: image.fullstartdate
+                })
+            )
+        })
+    })
+    return dailyImages
+}
+
+const saveImages = async (images) => {
+    for (let i = 0; i < images.length; i++) {
+        let docs = await BingDailyImage.find({ name: images[i].name })
+        if (docs.length === 0) {
+            await images[i].save()
+        }
     }
-}, 100)
+}
+
+const init = async () => {
+    let data = await getAllMarketInfos()
+    let uniqImages = getUniqImages(data)
+    await saveImages(uniqImages)
+    mongoose.disconnect()
+}
+
+init()
+
+// const saveImages = (images) => {
+//     images.forEach((image) => {
+//         BingDailyImage.find({
+//             name: image.name
+//         }, (err, docs) => {
+//             if (!err) {
+//                 if (docs.length === 0) {
+//                     image.save((e) => count++)
+//                 } else {
+//                     count++
+//                 }
+//             } else {
+//                 count++
+//                 console.error(err)
+//             }
+//         })
+//     })
+// }
+// 
+// const getUniqImages = (images) => {
+//     let map = Object.create(null)
+//     images.forEach((image) => {
+//         // Chinese first
+//         if (image.market === 'zh-cn') {
+//             map[image.name] = image
+//             return
+//         }
+//         if (!(image.name in map)) {
+//             map[image.name] = image
+//         }
+//     })
+//     return Object.keys(map).map(key => map[key])
+// }
+
+// let timer = setInterval(() => {
+//     console.log(`get images number: ${dailyImages.length}, target number: ${(MARKETS.length - failCount) * NUMBER}`)
+//     if (dailyImages.length === (MARKETS.length - failCount) * NUMBER) {
+//         clearInterval(timer)
+//         let uniqImages = getUniqImages(dailyImages)
+// 		saveImages(uniqImages)
+//         let timer2 = setInterval(() => {
+//             console.log('get images number: ' + count)
+//         	if (count === uniqImages.length) {
+//         		clearInterval(timer2)
+// 		        mongoose.disconnect()
+//         	}
+//         }, 100)
+//     }
+// }, 100)
