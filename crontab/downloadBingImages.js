@@ -15,7 +15,14 @@ const downloadEveryDayImages = async (date) => {
     let responses = await Promise.all(docsPromises)
     responses.forEach((response, index) => {
         let imgPath = `${PICS_DIR_PATH}${date}.${docs[index].market}.jpg`
-        response.data.pipe(fs.createWriteStream(imgPath))
+        let writeStream = fs.createWriteStream(imgPath)
+        writeStream.on('error', (err) => {
+            if (err.code === 'ENOENT') {
+                fs.mkdirSync(PICS_DIR_PATH)
+                console.log(`Init create ${ PICS_DIR_PATH }`)
+            }
+        })
+        response.data.pipe(writeStream)
         console.log(`==> save ${imgPath} ok! `)
     })
 }
