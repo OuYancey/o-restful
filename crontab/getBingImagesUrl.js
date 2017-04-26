@@ -1,5 +1,5 @@
-const mongoose = require('./mongodb')
-const request = require('request')
+const mongoose = require('../mongodb')
+const axios = require('axios')
 
 const BingDailyImage = mongoose.BingDailyImage
 
@@ -16,25 +16,15 @@ const MARKETS = ["ar-xa", "bg-bg", "cs-cz", "da-dk", "de-at", "de-ch", "de-de", 
 
 const hasMarketImage = (url, market) => url.toLowerCase().indexOf(market.toLowerCase()) > -1
 
-const getSingleMarketInfo = (market) => {
-    return new Promise((resolve, reject) => {
-        request(`${GLOBAL_BING_HOST}${BING_QUERY_API}${QUERY_PARAM}${market}`, (error, response, body) => {
-            if (error) reject(error)
-            resolve(body)
-        })
-    })
+const getMarketsResponses = async () => {
+    let markets = MARKETS.map((market) => axios.get(`${GLOBAL_BING_HOST}${BING_QUERY_API}${QUERY_PARAM}${market}`))
+    return await Promise.all(markets)
 }
 
-const getAllMarketInfos = async () => {
-    let markets = MARKETS.map((market) => getSingleMarketInfo(market))
-    let results = await Promise.all(markets)
-    return results
-}
-
-const getUniqImages = (data) => {
+const getUniqImages = (responses) => {
     let dailyImages = []
-    data.forEach((item, itemIndex) => {
-        JSON.parse(item).images.forEach((image) => {
+    responses.forEach((response, itemIndex) => {
+        response.data.images.forEach((image) => {
             if (!hasMarketImage(image.url, MARKETS[itemIndex])) return
             dailyImages.push(
                 new BingDailyImage({
@@ -62,8 +52,8 @@ const saveImages = async (images) => {
 }
 
 const init = async () => {
-    let data = await getAllMarketInfos()
-    let uniqImages = getUniqImages(data)
+    let responses = await getMarketsResponses()
+    let uniqImages = getUniqImages(responses)
     await saveImages(uniqImages)
     mongoose.disconnect()
 }

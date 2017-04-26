@@ -12,9 +12,9 @@
     "pro-reload": "pm2 reload o-restful"
   },
   "dependencies": {
+    "axios": "^0.16.1",
     "mongoose": "^4.9.3",
     "pm2": "^2.4.4",
-    "request": "^2.81.0",
     "restify": "^4.3.0"
   },
   "devDependencies": {
