@@ -6,6 +6,7 @@ const wx = require('./wx')
 const server = restify.createServer()
 server.use(restify.queryParser())
 server.use(restify.bodyParser())
+server.use(restify.CORS())
 
 server.get('/api/time', (req, res, next) => res.send(new Date().toLocaleString()))
 
