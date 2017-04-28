@@ -1,4 +1,3 @@
-const request = require('request')
 const mongoose = require('../mongodb')
 const util = require('../util')
 
