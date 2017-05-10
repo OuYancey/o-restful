@@ -27,4 +27,12 @@ mongoose.DailyExpenditure = mongoose.model('DailyExpenditure', {
 	id: String
 })
 
+mongoose.Task = mongoose.model('Task', {
+    createTime: Date,
+    type: String,
+    content: String,
+    duration: Number,
+    isEnd: Boolean
+})
+
 module.exports = mongoose
