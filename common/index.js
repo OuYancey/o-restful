@@ -9,28 +9,29 @@ const getTime = (req, res, next) => {
 
 const getBingDailyPicUrl = (req, res, next) => {
     const content = {
-        date: req.query.date || util.formatDate(util.getLastDay(new Date())),
+        startdate: req.query.startdate,
         size: req.query.size,
-        market: req.query.market
+        number: req.query.number
     }
 
     function callback(err, docs) {
-        if (!err) {
-            res.send(docs.map((doc) => {
-                return {
-                    url: doc.url.replace('1920x1080', content.size ? content.size : '1920x1080'),
-                    copyright: doc.copyright,
-                    name: doc.name
-                }
-            }))
-        } else {
-            res.send(err)
-        }
+        if (err) res.send(err)
+
+        res.send(docs.map((doc) => {
+            return {
+                url: doc.url.replace('1920x1080', content.size ? content.size : '1920x1080'),
+                copyright: doc.copyright,
+                name: doc.name
+            }
+        }))
     }
 
-    BingDailyImage.find({
-        startdate: content.date
-    }, callback)
+    let conditions = {}
+    if (content.date) {
+        conditions = { startdate: content.startdate }
+    }
+
+    BingDailyImage.find(conditions, null, { limit: content.number }, callback)
 
     console.log('getBingDailyPicUrl:', content)
 }
