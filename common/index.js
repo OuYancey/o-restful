@@ -15,8 +15,9 @@ const getBingDailyPicUrl = (req, res, next) => {
     }
 
     function callback(err, docs) {
+        res.charSet('utf-8')
+        
         if (err) res.send(err)
-
         res.send(docs.map((doc) => {
             return {
                 url: doc.url.replace('1920x1080', content.size ? content.size : '1920x1080'),
