@@ -17,10 +17,6 @@ const MARKETS = ["ar-xa", "bg-bg", "cs-cz", "da-dk", "de-at", "de-ch", "de-de", 
 const hasMarketImage = (url, market) => url.toLowerCase().indexOf(market.toLowerCase()) > -1
 
 const getMarketsResponses = async () => {
-    // | 在
-    // | 这
-    // | 里
-    // v
     let markets = MARKETS.map((market) => axios.get(`${GLOBAL_BING_HOST}${BING_QUERY_API}${QUERY_PARAM}${market}`))
     return await Promise.all(markets)
 }

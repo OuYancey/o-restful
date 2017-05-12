@@ -11,7 +11,7 @@ const getBingDailyPicUrl = (req, res, next) => {
     const content = {
         startdate: req.query.startdate,
         size: req.query.size,
-        number: req.query.number
+        number: Number(req.query.number)
     }
 
     function callback(err, docs) {
@@ -27,7 +27,7 @@ const getBingDailyPicUrl = (req, res, next) => {
     }
 
     let conditions = {}
-    if (content.date) {
+    if (content.startdate) {
         conditions = { startdate: content.startdate }
     }
 
