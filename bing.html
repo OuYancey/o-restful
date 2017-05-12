@@ -70,23 +70,19 @@
             delay: 3000
         }
 
-        function getRandomImage() {
-            store.curIndex = Math.floor(Math.random() * store.images.length)
-            store.curImage = store.images[store.curIndex]
+        function setRandomImage() {
+            getImage(Math.floor(Math.random() * store.images.length))
+            setImage()
         }
 
-        function setBackgroundImage() {
+        function getImage(index) {
+            store.curIndex = index
+            store.curImage = store.images[index]
+        }
+
+        function setImage() {
             html.style.backgroundImage = `url(${store.curImage.url})`
-        }
-
-        function setContent() {
             content.innerHTML = store.curImage.copyright
-        }
-
-        function refreshImage() {
-            getRandomImage()
-            setBackgroundImage()
-            setContent()
         }
 
         function toggleContent() {
@@ -103,7 +99,9 @@
         }
 
         function toggleFullscreen() {
-            document.webkitIsFullScreen ? document.webkitCancelFullScreen() : html.webkitRequestFullScreen()
+            document.webkitIsFullScreen
+                ? document.webkitCancelFullScreen()
+                : html.webkitRequestFullScreen()
         }
 
         function toggleSlideshow() {
@@ -111,30 +109,30 @@
                 clearInterval(store.timer)
             } else {
                 store.timer = setInterval(function() {
-                    refreshImage()
+                    setRandomImage()
                 }, store.delay)
             }
         }
 
         function prevImage() {
-            const index = store.curIndex - 1
-            store.curIndex = index < 0 ? store.images.length : index
-            store.curImage = store.images[store.curIndex]
-            setBackgroundImage()
+            let index = store.curIndex - 1
+            index = (index < 0) ? store.images.length - 1 : index
+            getImage(index)
+            setImage()
         }
 
         function nextImage() {
-            const index = store.curIndex + 1
-            store.curIndex = (index >= store.images.length) ? 0 : index
-            store.curImage = store.images[store.curIndex]
-            setBackgroundImage()
+            let index = store.curIndex + 1
+            index = (index > store.images.length - 1) ? 0 : index
+            getImage(index)
+            setImage()
         }
 
         function handleKeyup(event) {
             if (store.images.length === 0) return
             switch (event.key.toLowerCase()) {
                 case 'r':
-                    refreshImage()
+                    setRandomImage()
                     break
                 case 'c':
                     toggleContent()
@@ -164,7 +162,7 @@
                 .then(res => res.json())
                 .then(data => {
                     store.images = data
-                    refreshImage()
+                    setRandomImage()
                 })
         }
 
