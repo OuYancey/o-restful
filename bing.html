@@ -162,7 +162,8 @@
                 .then(res => res.json())
                 .then(data => {
                     store.images = data
-                    setRandomImage()
+                    getImage(store.images.length - 1)
+                    setImage()
                 })
         }
 
