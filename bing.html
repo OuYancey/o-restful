@@ -44,6 +44,8 @@
 
         header > #content {
             width: 100%;
+            height: 100%;
+            overflow: hidden;
             left: 100%;
             font-size: 20px;
             color: #ffebc8;
@@ -58,6 +60,7 @@
     </header>
 
     <script>
+        'use strict'
         const html = document.querySelector('html')
         const content = document.querySelector('#content')
         const h1 = document.querySelector('h1')
@@ -81,7 +84,7 @@
         }
 
         function setImage() {
-            html.style.backgroundImage = `url(${store.curImage.url})`
+            html.style.backgroundImage = 'url(' + store.curImage.url + ')'
             content.innerHTML = store.curImage.copyright
         }
 
@@ -92,7 +95,7 @@
         }
 
         function downloadImage() {
-            let aTag = document.createElement('a')
+            const aTag = document.createElement('a')
             aTag.download = store.curImage.name
             aTag.href = store.curImage.url
             aTag.dispatchEvent(new MouseEvent('click'))
@@ -130,26 +133,26 @@
 
         function handleKeyup(event) {
             if (store.images.length === 0) return
-            switch (event.key.toLowerCase()) {
-                case 'r':
+            switch (event.keyCode) {
+                case 82: // r
                     setRandomImage()
                     break
-                case 'c':
+                case 67: // c
                     toggleContent()
                     break
-                case 'd':
+                case 68: // d
                     downloadImage()
                     break
-                case 'f':
+                case 70: // f
                     toggleFullscreen()
                     break
-                case 's':
+                case 83: // s
                     toggleSlideshow()
                     break
-                case 'arrowleft':
+                case 37: // arrowleft
                     prevImage()
                     break
-                case 'arrowright':
+                case 39: // arrowright
                     nextImage()
                     break
                 default:
@@ -164,6 +167,7 @@
                     store.images = data
                     getImage(store.images.length - 1)
                     setImage()
+                    toggleContent()
                 })
         }
 
