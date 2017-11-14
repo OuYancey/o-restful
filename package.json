@@ -1,8 +1,12 @@
 {
   "name": "o-restful",
-  "version": "0.0.0",
-  "main": "index.js",
-  "repository": {},
+  "version": "0.2.0",
+  "description": "O's public restful API.",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sahat/hackathon-starter.git"
+  },
   "author": "OuYancey <ou.yancey@gmail.com>",
   "license": "MIT",
   "scripts": {
@@ -18,6 +22,8 @@
     "restify": "^4.3.0"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.1"
   }
 }
