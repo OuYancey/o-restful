@@ -1,21 +1,10 @@
 # o-restful
 
-> Node.js +  MongoDB
+> Node.js + MongoDB
 
-## Node.js
+## Reference
 
-- restfy
-- mongoose
-- pm2
-- axios
-
-## crontab
-
-```
-# use for get bing daily images url
-0 8 * * * node /root/o-restful/crontab/getBingImagesUrl.js  
-0 20 * * * node /root/o-restful/crontab/getBingImagesUrl.js
-```
+- [TypeScript-Node-Starter](https://github.com/Microsoft/TypeScript-Node-Starter)
 
 ## TODO
 

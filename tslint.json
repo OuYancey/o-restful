@@ -1,0 +1,5 @@
+{
+    // Use the built-in configurations presets.
+    // @see: https://github.com/palantir/tslint/tree/master/src/configs
+    "extends": "tslint:recommended"
+}
