@@ -19,6 +19,17 @@
 | tsconfig.json            | Config settings for compiling server code written in TypeScript                               |
 | tslint.json              | Config settings for TSLint code style checking                                                |
 
+## Commit Message
+
+| Name | Description |
+| -------- | ------------------------------------------ |
+| feat     | New feature                                |
+| fix      | Fix bugs                                   |
+| docs     | Update documentations                      |
+| style    | Code style                                 |
+| refactor | Refactor code, not new feature             |
+| chore    | Build tools or other support tools changed |
+
 ## Reference
 
 - [TypeScript-Node-Starter](https://github.com/Microsoft/TypeScript-Node-Starter)
@@ -26,4 +37,3 @@
 ## TODO
 
 - refactor to Typescript
--
