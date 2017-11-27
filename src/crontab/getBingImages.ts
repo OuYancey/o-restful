@@ -3,7 +3,6 @@ import {
     BING_QUERY_API,
     GLOBAL_BING_HOST,
     MARKETS,
-    QUERY_PARAM,
 } from "../helper/constant";
 
 const basicUrl = `${GLOBAL_BING_HOST}${BING_QUERY_API}`;
@@ -26,6 +25,7 @@ function getMarketsImages(markets: string[], n: number): Promise<IBingImage[]> {
         return axios.get(basicUrl, { params });
     });
 
+    // TODO: Error in typescript.
     return Promise.all(promises).then((responses) => responses.map((res) => res.data.images[0]));
 }
 

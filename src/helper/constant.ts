@@ -1,17 +1,16 @@
+export const GLOBAL_BING_HOST = "https://global.bing.com";
 
-export const GLOBAL_BING_HOST: string = "https://global.bing.com";
+export const CN_BING_HOST = "https://cn.bing.com";
 
-export const CN_BING_HOST: string = "https://cn.bing.com";
+export const BING_QUERY_API = "/HPImageArchive.aspx";
 
-export const BING_QUERY_API: string = "/HPImageArchive.aspx";
-
-export const QUERY_PARAM: object = {
+export const QUERY_PARAM = {
     format: "js",
     n: 1,
     setmkt: "",
 };
 
-export const MARKETS: string[] = [
+export const MARKETS = [
     "ar-xa", "bg-bg", "cs-cz", "da-dk", "de-at", "de-ch", "de-de", "el-gr", "en-au", "en-ca", "en-gb",
     "en-id", "en-ie", "en-in", "en-my", "en-nz", "en-ph", "en-sg", "en-us", "en-xa", "en-za", "es-ar", "es-cl",
     "es-es", "es-mx", "es-us", "es-xl", "et-ee", "fi-fi", "fr-be", "fr-ca", "fr-ch", "fr-fr", "he-il", "hr-hr",
