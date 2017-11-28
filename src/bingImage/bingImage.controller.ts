@@ -3,7 +3,7 @@ import {
     BING_QUERY_API,
     GLOBAL_BING_HOST,
     MARKETS,
-} from "../helper/constant";
+} from "./bingImage.constant.ts";
 
 const basicUrl = `${GLOBAL_BING_HOST}${BING_QUERY_API}`;
 
