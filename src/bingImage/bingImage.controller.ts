@@ -29,11 +29,9 @@ function getMarketsImages(markets: string[], n: number): Promise<IBingImage[]> {
     return Promise.all(promises).then((responses) => responses.map((res) => res.data.images[0]));
 }
 
-async function init() {
+export async function getBingImages() {
     const marketsImages: IBingImage[] = await getMarketsImages(MARKETS, 1);
     const images = deduplicate(marketsImages);
     // tslint:disable-next-line
     console.log(images)
 }
-
-init();

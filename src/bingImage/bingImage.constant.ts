@@ -10,6 +10,8 @@ export const QUERY_PARAM = {
     setmkt: "",
 };
 
+// Microsoft Market Codes
+// @see: https://msdn.microsoft.com/en-us/library/dn783426(v=bsynd.50).aspx
 export const MARKETS = [
     "ar-xa", "bg-bg", "cs-cz", "da-dk", "de-at", "de-ch", "de-de", "el-gr", "en-au", "en-ca", "en-gb",
     "en-id", "en-ie", "en-in", "en-my", "en-nz", "en-ph", "en-sg", "en-us", "en-xa", "en-za", "es-ar", "es-cl",
