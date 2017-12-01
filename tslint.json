@@ -1,5 +1,8 @@
 {
     // Use the built-in configurations presets.
     // @see: https://github.com/palantir/tslint/tree/master/src/configs
-    "extends": "tslint:recommended"
+    "extends": "tslint:recommended",
+    "rules": {
+        "no-console": false
+    }
 }
