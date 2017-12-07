@@ -1,3 +1,5 @@
+import * as fs from "fs";
+import * as yaml from "js-yaml";
 import * as path from "path";
 import {
     MongoDBConfig,
@@ -36,7 +38,11 @@ function parseConfig(obj: IMongoDBConfig | IMongoDBField, plantform: NodeJS.Plat
 
 function generateMongoDBConfig(config: IMongoDBConfig, plantform: NodeJS.Platform, filePath: string) {
     const conf = parseConfig(config, plantform);
-    console.log(conf);
+    const res = yaml.safeDump(conf, { indent: 4 });
+    console.log("\n--- start write yaml file ---");
+    console.log(res);
+    fs.writeFileSync(filePath, res);
+    console.log("--- write yaml file end ---\n");
 }
 
 function main() {
@@ -44,11 +50,9 @@ function main() {
     const filePath = path.join(__dirname, MongoDBConfigPath);
 
     console.log(`Current platform: ${platform}`);
-    console.log("Begin...");
 
     generateMongoDBConfig(MongoDBConfig, platform, filePath);
 
-    console.log("End...");
     console.log(`Generate success in path: ${filePath}`);
 }
 

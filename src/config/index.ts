@@ -28,4 +28,4 @@ export const MongoDBConfig = {
     },
 };
 
-export const MongoDBConfigPath = "../../";
+export const MongoDBConfigPath = "../../mongod.conf";
