@@ -11,7 +11,9 @@
 ### Control Flow and Error Handling
 
 - MDN - [流程控制与错误处理](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Control_flow_and_error_handling)
+- 2015(CN) - [小胡子哥：前端代码异常日志收集与监控](http://www.cnblogs.com/hustskyking/p/fe-monitor.html)
 - 2017(CN) - [黄子毅：36个代码块，带你读懂异常处理的优雅演进](https://mp.weixin.qq.com/s/9_Gxn5eAr8XKYyRxh8e8EA)
+- 2017(CN) - [肥仔John：前端魔法堂——异常不仅仅是try/catch](http://www.cnblogs.com/fsjohnhuang/p/7685144.html)
 
 ## JavaScript 底层原理
 
